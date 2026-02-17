@@ -5,13 +5,13 @@ on:
     branches: [ main ]
   pull_request:
 
+# 🚫 prevent parallel terraform runs
 concurrency:
   group: terraform-production
   cancel-in-progress: false
 
 env:
   TF_VERSION: "1.7.5"
-  TF_WORKING_DIR: "terraform"
   TF_VAR_aws_region: ${{ secrets.AWS_REGION }}
 
 jobs:
@@ -20,10 +20,6 @@ jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ${{ env.TF_WORKING_DIR }}
 
     steps:
       - name: Checkout Repository
@@ -58,10 +54,6 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ${{ env.TF_WORKING_DIR }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -89,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: terraform/tfplan
+          path: tfplan
 
 
 # ---------------- APPLY ----------------
@@ -99,10 +91,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    defaults:
-      run:
-        working-directory: ${{ env.TF_WORKING_DIR }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -111,7 +99,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: terraform/
+          path: .
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
