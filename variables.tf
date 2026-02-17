@@ -13,5 +13,5 @@ variable "s3_bucket_name" {
 variable "dynamodb_table_name" {
   description = "DynamoDB table name"
   type        = string
-    default     = "github-actions-terraform-state-lock-004"
+    default     = "github-actions-terraform-state-lock-004-avi"
 }
