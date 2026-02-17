@@ -7,11 +7,11 @@ variable "aws_region" {
 variable "s3_bucket_name" {
   description = "S3 bucket name (must be globally unique)"
   type        = string
-  default = "github-actions-terraform-state-bucket"
+  default = "github-actions-terraform-state-bucket-004-avi"
 }
 
 variable "dynamodb_table_name" {
   description = "DynamoDB table name"
   type        = string
-    default     = "github-actions-terraform-state-lock"
+    default     = "github-actions-terraform-state-lock-004-avi"
 }
